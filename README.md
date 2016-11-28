@@ -1,6 +1,6 @@
 Ansible Datadog Role
 ========
-[![Ansible Galaxy](http://img.shields.io/badge/galaxy-Datadog.datadog-660198.svg)](https://galaxy.ansible.com/Datadog/datadog/)
+[![Ansible Galaxy](http://img.shields.io/badge/galaxy-ebonharme.datadog-660198.svg)](https://galaxy.ansible.com/Datadog/datadog/)
 
 Install and configure Datadog base agent & checks.
 
@@ -10,7 +10,7 @@ Installation
 ------------
 
 ```
-ansible-galaxy install Datadog.datadog
+ansible-galaxy install ebonharme.datadog
 ```
 
 Role Variables
@@ -33,7 +33,7 @@ Example Playbooks
 ```
 - hosts: servers
   roles:
-    - { role: Datadog.datadog, become: yes }  # On Ansible < 1.9, use `sudo: yes` instead of `become: yes`
+    - { role: ebonharme.datadog, become: yes }  # On Ansible < 1.9, use `sudo: yes` instead of `become: yes`
   vars:
     datadog_api_key: "123456"
     datadog_config:
@@ -74,7 +74,7 @@ Example Playbooks
 ```
 - hosts: servers
   roles:
-    - { role: Datadog.datadog, become: yes, datadog_api_key: "mykey" }  # On Ansible < 1.9, use `sudo: yes` instead of `become: yes`
+    - { role: ebonharme.datadog, become: yes, datadog_api_key: "mykey" }  # On Ansible < 1.9, use `sudo: yes` instead of `become: yes`
 ```
 
 License
