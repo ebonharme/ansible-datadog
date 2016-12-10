@@ -37,12 +37,19 @@ script:
   # Run container in detached state.
   - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
 
+  # Check for exit or failures
+  - 'docker ps -'
+  - 'docker logs "$(cat ${container_id})"'
+  
   # Ansible syntax check.
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check -vvv'
 
   # Test role.
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} -vvv'
 
+  # More starus check
+  - 'docker ps -a'
+  
   # Test role idempotence.
   - idempotence=$(mktemp)
   - docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} -vvv | tee -a ${idempotence}
