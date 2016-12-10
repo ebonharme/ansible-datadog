@@ -4,7 +4,7 @@ services: docker
 env:
   # Test package install on all supported OSes.
   - distro: centos6
-    init: /usr/sbin/init
+    init: /sbin/init
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: centos7
@@ -38,7 +38,7 @@ script:
   - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
 
   # Check for exit or failures
-  - 'docker ps -'
+  - 'docker ps -a'
   - 'docker logs "$(cat ${container_id})"'
   
   # Ansible syntax check.
