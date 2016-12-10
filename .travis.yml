@@ -4,27 +4,21 @@ services: docker
 env:
   # Test package install on all supported OSes.
   - distro: centos6
-    init: /sbin/init
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: centos7
-    init: /usr/lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: debian8
-    init: /sbin/initctl
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: ubuntu1604
-    init: /lib/systemd/systemd
     run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
     playbook: test.yml
   - distro: ubuntu1404
-    init: /sbin/init
     run_opts: ""
     playbook: test.yml
   - distro: ubuntu1204
-    init: /sbin/init
     run_opts: ""
     playbook: test.yml
 
@@ -36,6 +30,7 @@ script:
   - container_id=$(mktemp)
   # Run playbook in container
   - 'docker run -d --name=mycontainer -e TERM=xterm --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest tail -f /dev/null'
+  - 'docker exec -t mycontainer ansible --version'
   - 'docker exec -t mycontainer ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} -vvv'
 
 notifications:
